@@ -1,6 +1,33 @@
-<p>login works!</p>
-<form action="">
-  <input id="username" type="text" placeholder="Username">
-  <input id="password" type="password" placeholder="Password">
-  <button (click)="login()" type="button">Login</button>
-</form>
+<!--<p>login works!</p>-->
+<!--<form action="">-->
+<!--  <input id="username" type="text" placeholder="Username">-->
+<!--  <input id="password" type="password" placeholder="Password">-->
+<!--  <button (click)="login()" type="button">Login</button>-->
+<!--</form>-->
+
+<section>
+  <div class="color"></div>
+  <div class="color"></div>
+  <div class="color"></div>
+  <div class="box">
+    <div class="container">
+      <div class="form">
+        <h2>Login Form</h2>
+        <form>
+          <div class="inputBox">
+            <input id="username" type="text" placeholder="Username">
+          </div>
+          <p id="validate-username"></p>
+          <div class="inputBox">
+            <input id="password" type="password" placeholder="Password">
+          </div>
+          <p id="validate-password"></p>
+          <p id="message"></p>
+          <div class="inputBox">
+            <input (click)="login()" type="button" value="Login">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
