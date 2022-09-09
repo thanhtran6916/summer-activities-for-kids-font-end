@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthApi} from "../apis/auth.api";
 import {Router} from "@angular/router";
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -36,30 +37,24 @@ export class LoginComponent implements OnInit {
       password: password
     }
 
-    this.auth.login(payload).subscribe((res) => {
-      if (res.errorCode == 0) {
-        localStorage.setItem('token', JSON.stringify(res.data.token));
+    this.auth.login(payload).then((res) => {
+      // @ts-ignore
+      if (res.access_token) {
+        // @ts-ignore
+        localStorage.setItem('token', JSON.stringify(res.access_token));
         alert("Đăng nhập thành công!");
         this.router.navigate(['']);
       } else {
-        if (res.errorCode == 400) {
-          for (let i = 0; i < res.data.length; i++) {
-            if (res.data[i].fieldName == 'username') {
-              // @ts-ignore
-              validName.innerHTML = res.data[i].errorMessage;
-            }
-            if (res.data[i].fieldName == 'password') {
-              // @ts-ignore
-              validPassword.innerHTML = res.data[i].errorMessage;
-            }
-          }
-        } else {
-          // @ts-ignore
-          message.innerHTML = res.message;
-        }
+        // @ts-ignore
+        message.innerHTML = 'Tài khoản hoặc mật khẩu không chính xác!';
       }
     }, err => {
-      alert("Lỗi hệ thống!");
+      if (err.status == 401) {
+        // @ts-ignore
+        message.innerHTML = 'Tài khoản hoặc mật khẩu không chính xác!';
+      } else {
+        alert('Lỗi hệ thống!');
+      }
     })
   }
 }
