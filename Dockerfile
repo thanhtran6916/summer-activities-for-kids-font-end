@@ -7,6 +7,6 @@ RUN npm install
 COPY . /app
 RUN npm run build --prod
 
-FROM nginx:1.20.1
+FROM nginx:1.20.1-alpine
 COPY --from=build-step /app/dist/summer-activities-for-kids-font-end /usr/share/nginx/html
 EXPOSE 4200:80
