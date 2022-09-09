@@ -7,7 +7,7 @@ export const AppRouters: Routes = [
     loadChildren: () => import('./pages/public/public.module').then((m) => m.PublicModule)
   },
   {
-    path: 'auth',
+    path: 'user',
     loadChildren: () => import('./pages/auth/auth-routing.module').then((m) => m.AuthRoutingModule)
   },
   {

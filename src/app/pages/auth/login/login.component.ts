@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthApi} from "../apis/auth.api";
 import {Router} from "@angular/router";
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -20,11 +21,9 @@ export class LoginComponent implements OnInit {
     let validName = document.getElementById('validate-username');
     // @ts-ignore
     validName.innerHTML = '';
-    let validPassword = document.getElementById('validate-password');
-    // @ts-ignore
+    let validPassword: any = document.getElementById('validate-password');
     validPassword.innerHTML = '';
-    let message = document.getElementById('message');
-    // @ts-ignore
+    let message: any = document.getElementById('message');
     message.innerHTML = '';
     // @ts-ignore
     let username = document.getElementById('username').value;
@@ -36,30 +35,20 @@ export class LoginComponent implements OnInit {
       password: password
     }
 
-    this.auth.login(payload).subscribe((res) => {
-      if (res.errorCode == 0) {
-        localStorage.setItem('token', JSON.stringify(res.data.token));
+    this.auth.login(payload).then((res: any) => {
+      if (res.access_token) {
+        localStorage.setItem('token', JSON.stringify(res.access_token));
         alert("Đăng nhập thành công!");
         this.router.navigate(['']);
       } else {
-        if (res.errorCode == 400) {
-          for (let i = 0; i < res.data.length; i++) {
-            if (res.data[i].fieldName == 'username') {
-              // @ts-ignore
-              validName.innerHTML = res.data[i].errorMessage;
-            }
-            if (res.data[i].fieldName == 'password') {
-              // @ts-ignore
-              validPassword.innerHTML = res.data[i].errorMessage;
-            }
-          }
-        } else {
-          // @ts-ignore
-          message.innerHTML = res.message;
-        }
+        message.innerHTML = 'Tài khoản hoặc mật khẩu không chính xác!';
       }
     }, err => {
-      alert("Lỗi hệ thống!");
+      if (err.status == 401) {
+        message.innerHTML = 'Tài khoản hoặc mật khẩu không chính xác!';
+      } else {
+        alert('Lỗi hệ thống!');
+      }
     })
   }
 }
