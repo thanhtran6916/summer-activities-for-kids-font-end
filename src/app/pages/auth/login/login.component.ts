@@ -21,11 +21,9 @@ export class LoginComponent implements OnInit {
     let validName = document.getElementById('validate-username');
     // @ts-ignore
     validName.innerHTML = '';
-    let validPassword = document.getElementById('validate-password');
-    // @ts-ignore
+    let validPassword: any = document.getElementById('validate-password');
     validPassword.innerHTML = '';
-    let message = document.getElementById('message');
-    // @ts-ignore
+    let message: any = document.getElementById('message');
     message.innerHTML = '';
     // @ts-ignore
     let username = document.getElementById('username').value;
@@ -37,20 +35,16 @@ export class LoginComponent implements OnInit {
       password: password
     }
 
-    this.auth.login(payload).then((res) => {
-      // @ts-ignore
+    this.auth.login(payload).then((res: any) => {
       if (res.access_token) {
-        // @ts-ignore
         localStorage.setItem('token', JSON.stringify(res.access_token));
         alert("Đăng nhập thành công!");
         this.router.navigate(['']);
       } else {
-        // @ts-ignore
         message.innerHTML = 'Tài khoản hoặc mật khẩu không chính xác!';
       }
     }, err => {
       if (err.status == 401) {
-        // @ts-ignore
         message.innerHTML = 'Tài khoản hoặc mật khẩu không chính xác!';
       } else {
         alert('Lỗi hệ thống!');
